@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zero Lag — PC FPS & Latency Optimization</title>
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;900&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--panel:#0e130f;--line:#1b261f;--fg:#f4f7f5;--mute:#8d9d93;--g:#22ff88;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--fg);font:300 17px/1.6 Geist,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Unbounded,Geist,sans-serif;margin:0;line-height:1.08;letter-spacing:-.02em}
+a{color:inherit}p{margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.c{text-align:center}
+.lbl{display:inline-block;color:var(--g);font:500 14px Unbounded;margin-bottom:22px}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(520px circle at var(--mx,50%) var(--my,30%),#22ff8820,transparent 70%)}
+.bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(#1b261f99 1px,transparent 1px),linear-gradient(90deg,#1b261f99 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 60% at 50% 35%,#000,transparent);mask-image:radial-gradient(70% 60% at 50% 35%,#000,transparent)}
+.bg::after{content:"";position:absolute;width:60vmax;height:60vmax;left:-20vmax;top:-25vmax;background:radial-gradient(circle,#22ff8822,transparent 65%);animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(55vw,30vh) scale(1.2)}}
+nav,main,footer,.cta{position:relative;z-index:1}
+#prog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--g);box-shadow:0 0 14px var(--g);z-index:30}
+nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 28px;backdrop-filter:blur(16px);background:#0a0a0acc;border-bottom:1px solid #ffffff0d}
+.logo{font:900 15px Unbounded;text-decoration:none;display:flex;gap:10px;align-items:center;white-space:nowrap}
+.logo i,.badge i{width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 14px var(--g);animation:pulse 1.3s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.links{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.links a{text-decoration:none;color:var(--mute);padding:8px 16px;border-radius:999px;font-size:15px;transition:color .2s,background .2s;white-space:nowrap}
+.links a:hover,.links a.act{color:var(--fg);background:#ffffff10}
+.btn{display:inline-block;padding:15px 30px;border-radius:999px;background:var(--g);color:#031008;font-weight:500;text-decoration:none;border:0;font:500 16px Geist;cursor:pointer;transition:box-shadow .25s,transform .25s}
+.btn:hover{box-shadow:0 10px 40px #22ff8855}
+.btn.ghost{background:none;color:var(--fg);border:1px solid #2c3d33}
+.btn.sm{padding:10px 20px;font-size:15px}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+.page{display:none;padding-top:70px}.page.on{display:block;animation:pg .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes pg{from{opacity:0;transform:translateY(26px);filter:blur(8px)}}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+/* hero */
+.hero{min-height:calc(100svh - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px 70px}
+.badge{display:inline-flex;align-items:center;gap:10px;border:1px solid #1f6b40;background:#0a1a10aa;border-radius:999px;padding:7px 18px;font-size:14px;color:#bfe8cf;margin-bottom:34px}
+#title{font:900 clamp(44px,12.5vw,190px)/1 Unbounded;letter-spacing:-.05em;overflow:hidden;padding:.04em .05em .1em}
+#title span{display:inline-block;transform:translateY(115%);animation:up 1s cubic-bezier(.2,.8,.2,1) forwards}
+#title .g{color:var(--g);text-shadow:0 0 60px #22ff8866}
+@keyframes up{to{transform:none}}
+.roll{font:600 clamp(18px,2.6vw,30px) Unbounded;margin:22px 0 14px}
+.roll b{color:var(--g);display:inline-block;animation:swap .6s}
+@keyframes swap{from{opacity:0;transform:translateY(14px)}}
+.sub{max-width:48ch;color:var(--mute);font-size:18px;margin-bottom:34px}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-block:1px solid var(--line);background:#0a0a0acc;text-align:center}
+.stats div{padding:46px 20px;border-right:1px solid var(--line)}.stats div:last-child{border:0}
+.stats b{display:block;font:900 clamp(38px,5vw,60px) Unbounded;color:var(--g);text-shadow:0 0 30px #22ff8855}
+.stats span{color:var(--mute);font-size:15px}
+/* scrub */
+.scrub{height:340vh;position:relative}
+.stick{position:sticky;top:70px;height:calc(100svh - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:10px 24px;text-align:center}
+.stick h2{font-size:clamp(24px,4vw,48px);max-width:18ch}
+.states{position:relative;height:70px;width:min(440px,100%)}
+.states div{position:absolute;inset:0;opacity:0;transition:opacity .4s;color:var(--mute);font-size:16px}
+.states div.on{opacity:1}
+.states strong{font:600 19px Unbounded;display:block;margin-bottom:4px;color:var(--fg)}
+.gauge{position:relative;width:min(460px,100%,48svh);aspect-ratio:1;border:1px solid var(--line);border-radius:28px;background:#0b110dee;overflow:hidden}
+.gauge canvas{width:100%;height:100%;display:block}
+.bar{position:absolute;left:24px;right:24px;bottom:16px;height:3px;background:var(--line);border-radius:3px}
+.bar i{display:block;height:100%;width:0;background:var(--g);border-radius:3px;box-shadow:0 0 14px var(--g)}
+/* sections */
+.pad{padding:120px 0}
+h2.big{font-size:clamp(30px,5vw,62px);max-width:17ch}
+.c h2.big{margin:0 auto}
+.phead{padding:90px 0 30px;text-align:center}
+.phead h1{font-size:clamp(46px,9vw,120px);font-weight:900;letter-spacing:-.04em}
+.phead p{color:var(--mute);max-width:48ch;margin:22px auto 0;font-size:18px}
+.spot{position:relative;overflow:hidden}
+.spot::after{content:"";position:absolute;inset:0;background:radial-gradient(340px circle at var(--sx,50%) var(--sy,50%),#22ff8820,transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
+.spot:hover::after{opacity:1}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:56px}
+.card{border:1px solid var(--line);border-radius:24px;padding:34px 28px;background:var(--panel);text-align:left;transition:border-color .3s}
+.card:hover{border-color:#1f6b40}.card h3{font-size:19px;margin:12px 0 10px}.card p{color:var(--mute);font-size:16px}
+.card .lbl{margin:0}
+.svc{margin-top:40px;border-top:1px solid var(--line)}
+.srow{display:grid;grid-template-columns:90px 1.3fr 1fr;gap:24px;padding:42px 0;border-bottom:1px solid var(--line);align-items:center;text-align:left;transition:background .3s}
+.srow:hover{background:#22ff8808}
+.srow .n{font:900 44px Unbounded;color:#2a3a31;transition:color .3s}.srow:hover .n{color:var(--g)}
+.srow h3{font-size:clamp(22px,2.8vw,34px);margin-bottom:6px}.srow b{display:block;color:var(--g);font:500 15px Geist;margin-bottom:10px}
+.srow p{color:var(--mute);max-width:44ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips em{font-style:normal;font-size:14px;border:1px solid #26362c;border-radius:999px;padding:5px 14px;color:#cfdad3}
+.chips small{width:100%;color:var(--mute);margin-top:6px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:56px}
+.steps .card{text-align:center}.steps .n{font:900 34px Unbounded;color:var(--g)}
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:860px;margin:30px auto 0}
+.plan{border:1px solid var(--line);border-radius:28px;padding:44px 32px;background:var(--panel);text-align:center}
+.plan.full{background:linear-gradient(160deg,#0d2a1a,#09100b 60%);border-color:#1f6b40}
+.tag{display:inline-block;margin-bottom:12px;font-size:13px;color:var(--g);border:1px solid #1f6b40;border-radius:999px;padding:3px 14px}
+.price{font:900 clamp(44px,6vw,68px) Unbounded;margin:16px 0 6px}
+.plan small{color:var(--mute)}
+.plan ul{list-style:none;padding:0;margin:26px 0 34px;display:grid;gap:12px;justify-items:center}
+.plan li::before{content:"";display:inline-block;width:12px;height:7px;margin-right:12px;border-left:2px solid var(--g);border-bottom:2px solid var(--g);transform:rotate(-45deg) translateY(-3px)}
+.tbl{max-width:860px;margin:70px auto 0;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--panel)}
+.tbl div{display:grid;grid-template-columns:1fr 90px 90px;padding:18px 26px;border-bottom:1px solid var(--line);text-align:left}
+.tbl div:last-child{border:0}.tbl .h{font:600 14px Unbounded;color:var(--mute)}.tbl span:not(:first-child){text-align:center;color:var(--g)}
+.pay{display:flex;gap:12px;justify-content:center;margin-top:30px;color:var(--mute);font-size:14px;flex-wrap:wrap}
+.pay span{border:1px solid var(--line);border-radius:10px;padding:6px 16px}
+/* results */
+.ba{margin-top:56px;display:grid;gap:34px;max-width:860px;margin-inline:auto;text-align:left}
+.ba h3{font-size:18px;margin-bottom:14px}
+.ba div{display:grid;grid-template-columns:70px 1fr 90px;gap:14px;align-items:center;margin-bottom:8px;color:var(--mute);font-size:15px}
+.ba i{display:block;height:12px;border-radius:12px;background:#2a3a31;width:0;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.ba div.a i{background:var(--g);box-shadow:0 0 18px #22ff8888}
+.ba div.a{color:var(--fg)}
+.in .ba i,.ba.in i{width:var(--w)}
+.big-n{font:900 clamp(60px,12vw,170px)/1 Unbounded;color:var(--g);text-shadow:0 0 60px #22ff8855;margin:20px 0}
+.note{color:var(--mute);font-size:14px;margin-top:40px}
+/* contact */
+.build{max-width:760px;margin:40px auto 0;border:1px solid var(--line);border-radius:28px;padding:34px;background:var(--panel);display:grid;gap:14px;text-align:left}
+.build label{font-size:14px;color:var(--mute);display:grid;gap:6px}
+.build input,.build select,.build textarea{background:#080b09;border:1px solid #26362c;border-radius:14px;padding:14px 16px;color:var(--fg);font:300 16px Geist;width:100%}
+.build textarea{min-height:130px;resize:vertical}
+.faq{max-width:760px;margin:60px auto 0;display:grid;gap:12px;text-align:left}
+.faq details{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:0 26px;transition:border-color .3s}
+.faq details[open]{border-color:#1f6b40}
+.faq summary{list-style:none;cursor:pointer;padding:22px 0;font:500 16px Unbounded;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--g);font-size:26px;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{margin-bottom:24px;color:var(--mute)}
+/* cta + footer */
+.cta{padding:150px 0 130px;text-align:center;background:radial-gradient(60% 70% at 50% 100%,#22ff8826,#0a0a0af2 70%),#0a0a0af2;border-top:1px solid var(--line)}
+body[data-r=contact] .cta{display:none}
+.cta h2{font-size:clamp(34px,7vw,92px);font-weight:900;margin:0 auto 22px;max-width:13ch}
+.cta p{color:var(--mute);margin:0 auto 34px;max-width:44ch}
+.checks{display:flex;gap:10px 26px;justify-content:center;flex-wrap:wrap;margin-top:34px;color:#cfdad3;font-size:15px}
+.checks span::before{content:"✦ ";color:var(--g)}
+footer{background:#070707;border-top:1px solid var(--line);padding:70px 24px 30px}
+.fgrid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
+footer h3{font:600 13px Unbounded;color:var(--mute);margin-bottom:16px}
+footer a{display:block;text-decoration:none;color:#cfdad3;padding:4px 0}footer a:hover{color:var(--g)}
+.copy{max-width:1100px;margin:50px auto 0;padding-top:24px;border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fpill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:19;display:flex;gap:12px;align-items:center;padding:10px 22px;border:1px solid #1f6b40;border-radius:999px;background:#07100bd9;backdrop-filter:blur(12px);font:500 13px Unbounded;box-shadow:0 0 30px #22ff8822}
+.fpill b{color:var(--g);min-width:3ch;text-align:right}
+@media(max-width:820px){nav{padding:12px 14px}nav .btn{display:none}.srow{grid-template-columns:1fr;gap:12px;padding:34px 0}.fgrid{grid-template-columns:1fr 1fr}.ba div{grid-template-columns:56px 1fr 74px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}#title span{transform:none}.reveal{opacity:1;transform:none}.ba i{width:var(--w)}}
+</style>
+</head>
+<body data-r="home">
+<div id="prog"></div><div class="bg" id="bg"></div>
+<div class="fpill" aria-hidden="true">FPS <b id="fps">60</b></div>
+<nav>
+  <a class="logo" href="#home"><i></i>ZERO LAG</a>
+  <div class="links"><a data-nav="home" href="#home">Home</a><a data-nav="services" href="#services">Services</a><a data-nav="pricing" href="#pricing">Pricing</a><a data-nav="results" href="#results">Results</a><a data-nav="contact" href="#contact">Contact</a></div>
+  <a class="btn sm dm" href="#contact">Book now</a>
+</nav>
+
+<main>
+<!-- HOME -->
+<div class="page" data-p="home">
+  <header class="hero">
+    <div class="badge"><i></i>Available for bookings</div>
+    <h1 id="title" aria-label="Zero Lag">ZERO LAG</h1>
+    <p class="roll">PC tuning that <b id="roll">boosts FPS.</b></p>
+    <p class="sub">I strip out what slows your Windows PC down and tune what makes it fast, so your games run smoother and respond sooner.</p>
+    <div class="row"><a class="btn" href="#pricing">See prices</a><a class="btn ghost" href="#services">What I tune</a></div>
+  </header>
+  <div class="stats">
+    <div class="reveal"><b data-n="5" data-pre="€">0</b><span>Starting price</span></div>
+    <div class="reveal"><b data-n="2">0</b><span>Plans to choose from</span></div>
+    <div class="reveal"><b data-n="6">0</b><span>Areas of your PC tuned</span></div>
+    <div class="reveal"><b data-n="1">0</b><span>DM to book</span></div>
+  </div>
+  <div class="scrub" id="scrub"><div class="stick">
+    <h2>Watch your frame time flatten out.</h2>
+    <div class="states" id="states">
+      <div class="on"><strong>Before</strong>Spiky frame times, background apps eating CPU.</div>
+      <div><strong>Cleaning up</strong>Debloat, power plan and GPU settings applied.</div>
+      <div><strong>After</strong>Higher FPS and a steady, low frame time.</div>
+    </div>
+    <div class="gauge"><canvas id="gauge" width="840" height="840"></canvas><div class="bar"><i id="bar"></i></div></div>
+  </div></div>
+  <section class="pad c"><div class="wrap">
+    <span class="lbl reveal">✦ Why it works</span>
+    <h2 class="big reveal">Not magic. Just a cleaner, faster Windows.</h2>
+    <div class="cards">
+      <div class="card spot reveal"><span class="lbl">Less</span><h3>Less running in the background</h3><p>Startup junk, telemetry and unused services stop fighting your game for CPU.</p></div>
+      <div class="card spot reveal"><span class="lbl">More</span><h3>More power where it counts</h3><p>Power plan and GPU settings keep your hardware at full speed while you play.</p></div>
+      <div class="card spot reveal"><span class="lbl">Better</span><h3>Settings that fit your games</h3><p>Registry, network and game config tuned for lower input delay and steadier ping.</p></div>
+    </div>
+    <div class="row reveal" style="margin-top:50px"><a class="btn ghost" href="#services">See every service</a></div>
+  </div></section>
+</div>
+
+<!-- SERVICES -->
+<div class="page" data-p="services">
+  <div class="phead wrap"><span class="lbl">✦ What I do</span><h1>Services</h1><p>Six areas of your PC, tuned for FPS and low latency. Light covers the first three, Full covers all six.</p></div>
+  <div class="wrap"><div class="svc" id="svc"></div>
+    <div class="steps c" id="steps"></div></div>
+  <div style="height:110px"></div>
+</div>
+
+<!-- PRICING -->
+<div class="page" data-p="pricing">
+  <div class="phead wrap"><span class="lbl">✦ Prices</span><h1>Pick your level</h1><p>Clear prices. Pay by SEPA or PayPal.</p></div>
+  <div class="wrap">
+    <div class="plans">
+      <article class="plan spot reveal"><h3>Light</h3><div class="price">€5</div><small>Quick and clean</small><ul><li>Windows debloat</li><li>Power plan setup</li><li>GPU tweaks</li></ul><a class="btn ghost" href="#contact" data-plan="Light (€5)">Book Light</a></article>
+      <article class="plan full spot reveal"><span class="tag">Best results</span><h3>Full</h3><div class="price">€10–15</div><small>Price depends on your setup</small><ul><li>Everything in Light</li><li>Deep registry and network tweaks</li><li>BIOS check</li><li>Game config</li></ul><a class="btn" href="#contact" data-plan="Full (€10–15)">Book Full</a></article>
+    </div>
+    <div class="tbl reveal" id="tbl"></div>
+    <div class="pay"><span>SEPA</span><span>PayPal</span></div>
+  </div>
+  <div style="height:110px"></div>
+</div>
+
+<!-- RESULTS -->
+<div class="page" data-p="results">
+  <div class="phead wrap"><span class="lbl">✦ Results</span><h1>What changes</h1><p>Higher FPS, higher 1% lows and lower input delay. The figures below are examples for layout only.</p></div>
+  <div class="wrap c">
+    <div class="big-n reveal" data-n="45" data-pre="+" data-suf="% FPS">0</div>
+    <div class="ba reveal" id="ba"></div>
+    <p class="note">Example figures. Replace them with your own client results before you share this page.</p>
+  </div>
+  <div style="height:110px"></div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" data-p="contact">
+  <div class="phead wrap"><span class="lbl">✦ Book now</span><h1>Let's talk</h1><p>Fill in the details, copy the message and send it to me in a DM.</p></div>
+  <div class="wrap">
+    <div class="build reveal">
+      <label>Plan<select id="plan"><option>Light (€5)</option><option>Full (€10–15)</option></select></label>
+      <label>Your PC<input id="hw" placeholder="CPU, GPU, RAM"></label>
+      <label>Main game<input id="game" placeholder="Which game do you play most?"></label>
+      <label>Your message<textarea id="msg" readonly></textarea></label>
+      <div class="row"><button class="btn" id="copy" type="button">Copy message</button><a class="btn ghost dm" href="#contact">Open DM</a></div>
+    </div>
+    <div class="faq reveal" id="faq"></div>
+  </div>
+  <div style="height:120px"></div>
+</div>
+</main>
+
+<section class="cta"><div class="wrap">
+  <h2 class="reveal">Ready for zero lag?</h2>
+  <p class="reveal">DM me to book your slot. Pay by SEPA or PayPal.</p>
+  <a class="btn dm" href="#contact">DM to book</a>
+  <div class="checks reveal"><span>Clear price up front</span><span>SEPA or PayPal</span><span>Summary of what changed</span></div>
+</div></section>
+
+<footer>
+  <div class="fgrid">
+    <div><a class="logo" href="#home"><i></i>ZERO LAG</a><p style="color:var(--mute);margin-top:14px;max-width:30ch">PC FPS and latency optimization for Windows gamers.</p></div>
+    <div><h3>Pages</h3><a href="#home">Home</a><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#results">Results</a></div>
+    <div><h3>Plans</h3><a href="#pricing">Light · €5</a><a href="#pricing">Full · €10–15</a></div>
+    <div><h3>Contact</h3><a href="#contact">DM to book</a><a href="#contact">SEPA / PayPal</a></div>
+  </div>
+  <div class="copy"><span>© 2026 Zero Lag</span><span>Available for bookings</span></div>
+</footer>
+
+<script>
+(function(){
+  var DM_URL=''; /* paste your Instagram / Discord / Telegram link here */
+  var $=function(i){return document.getElementById(i)},all=function(s){return [].slice.call(document.querySelectorAll(s))};
+  var SV=[['Windows debloat','Cut the dead weight.','Removes startup junk, telemetry and background services you never use.',['Startup apps','Background services','Telemetry'],1],
+   ['Power plan','Full speed, always.','Keeps your CPU and GPU at full speed instead of throttling mid-game.',['CPU boost','GPU clocks','Sleep states'],1],
+   ['GPU tweaks','Matched to how you play.','Driver and control panel settings set up for your games.',['Driver setup','Control panel','Game profiles'],1],
+   ['Registry and network','Lower delay, steadier ping.','Deep system tweaks that cut input delay and smooth out your connection.',['Input delay','Network stack','Timer settings'],0],
+   ['BIOS check','Hardware at its best.','I go through key settings like XMP/EXPO and resizable BAR with you.',['XMP / EXPO','Resizable BAR','Boost settings'],0],
+   ['Game config','FPS without ugly visuals.','In-game settings picked for the best mix of FPS and looks.',['Graphics settings','FPS caps','Launch options'],0]];
+  $('svc').innerHTML=SV.map(function(s,i){return '<article class="srow spot reveal"><span class="n">0'+(i+1)+'</span><div><h3>'+s[0]+'</h3><b>'+s[1]+'</b><p>'+s[2]+'</p></div><div class="chips">'+s[3].map(function(c){return '<em>'+c+'</em>'}).join('')+'<small>'+(s[4]?'Light and Full':'Full only')+'</small></div></article>'}).join('');
+  $('steps').innerHTML=[['Send a DM','Tell me your PC parts, your games and your plan.'],['Pay by SEPA or PayPal','We agree on the price and you pay before we start.'],['I tune your PC','You get a faster system and a short summary of what changed.']].map(function(s,i){return '<div class="card spot reveal"><span class="n">0'+(i+1)+'</span><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>'}).join('');
+  $('tbl').innerHTML='<div class="h"><span>What is included</span><span>Light</span><span>Full</span></div>'+SV.map(function(s){return '<div><span>'+s[0]+'</span><span>'+(s[4]?'✓':'—')+'</span><span>✓</span></div>'}).join('');
+  $('ba').innerHTML=[['Average FPS',92,148],['1% low FPS',48,104],['Input delay (ms)',34,21]].map(function(r){var m=Math.max(r[1],r[2]);return '<section><h3>'+r[0]+'</h3><div><span>Before</span><i style="--w:'+r[1]/m*100+'%"></i><span>'+r[1]+'</span></div><div class="a"><span>After</span><i style="--w:'+r[2]/m*100+'%"></i><span>'+r[2]+'</span></div></section>'}).join('');
+  $('faq').innerHTML=[['Which PCs does this work on?','Windows PCs. Send me your parts in the DM and I will confirm it fits.'],['What is the difference between Light and Full?','Light cleans up Windows and sets power and GPU basics. Full adds deep registry and network tweaks, a BIOS check and game config.'],['How do I pay?','SEPA or PayPal, agreed in the DM before we start.'],['What should I send in my DM?','Your CPU, GPU and RAM, your main game and the plan you want. The form above writes it for you.']].map(function(q){return '<details><summary>'+q[0]+'</summary><p>'+q[1]+'</p></details>'}).join('');
+
+  /* hero title + rolling words */
+  $('title').innerHTML='ZERO LAG'.split('').map(function(c,i){return '<span'+(i>4?' class="g"':'')+' style="animation-delay:'+i*70+'ms">'+(c==' '?'&nbsp;':c)+'</span>'}).join('');
+  var W=['boosts FPS.','cuts input lag.','smooths frame times.','wins you games.'],wi=0,rl=$('roll');
+  setInterval(function(){wi=(wi+1)%W.length;rl.style.animation='none';rl.offsetWidth;rl.textContent=W[wi];rl.style.animation=''},2400);
+
+  /* DM links + booking builder */
+  all('.dm').forEach(function(a){if(DM_URL){a.href=DM_URL;a.target='_blank';a.rel='noopener'}});
+  var pl=$('plan'),hw=$('hw'),gm=$('game'),ms=$('msg');
+  function build(){ms.value='Hi! I would like the '+pl.value+' PC optimization.\nMy PC: '+(hw.value||'(CPU / GPU / RAM)')+'\nMain game: '+(gm.value||'(game)')+'\nPayment: SEPA or PayPal'}
+  [pl,hw,gm].forEach(function(e){e.addEventListener('input',build)});build();
+  all('[data-plan]').forEach(function(a){a.addEventListener('click',function(){pl.value=a.dataset.plan;build()})});
+  $('copy').addEventListener('click',function(){var b=this;function ok(){b.textContent='Copied!';setTimeout(function(){b.textContent='Copy message'},1600)}
+    try{navigator.clipboard.writeText(ms.value).then(ok,function(){ms.select();document.execCommand('copy');ok()})}catch(e){ms.select();document.execCommand('copy');ok()}});
+
+  /* router */
+  var pages=all('.page');
+  function route(){var h=(location.hash||'#home').slice(1);if(!pages.some(function(p){return p.dataset.p===h}))h='home';
+    pages.forEach(function(p){p.classList.toggle('on',p.dataset.p===h)});
+    all('[data-nav]').forEach(function(a){a.classList.toggle('act',a.dataset.nav===h)});
+    document.body.dataset.r=h;scrollTo({top:0,behavior:'instant'});onScroll()}
+
+  /* cursor glow, spotlight, magnetic buttons */
+  var bg=$('bg');addEventListener('pointermove',function(e){bg.style.setProperty('--mx',e.clientX+'px');bg.style.setProperty('--my',e.clientY+'px')});
+  document.addEventListener('pointermove',function(e){var c=e.target.closest&&e.target.closest('.spot');if(c){var b=c.getBoundingClientRect();c.style.setProperty('--sx',e.clientX-b.left+'px');c.style.setProperty('--sy',e.clientY-b.top+'px')}});
+  all('.btn').forEach(function(b){b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+(e.clientX-r.left-r.width/2)*.2+'px,'+(e.clientY-r.top-r.height/2)*.3+'px)'});b.addEventListener('pointerleave',function(){b.style.transform=''})});
+
+  /* reveal + counters */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  all('.reveal').forEach(function(el,i){el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
+  var co=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;co.unobserve(e.target);var el=e.target,n=+el.dataset.n,t0=performance.now();
+    (function f(t){var k=Math.min(1,(t-t0)/1400);el.textContent=(el.dataset.pre||'')+Math.round(n*(1-Math.pow(1-k,3)))+(el.dataset.suf||'');if(k<1)requestAnimationFrame(f)})(t0)})},{threshold:.6});
+  all('[data-n]').forEach(function(el){co.observe(el)});
+
+  /* scroll progress + FPS pill + scrubbed gauge */
+  var prog=$('prog'),fe=$('fps'),sec=$('scrub'),bar=$('bar'),st=all('#states div'),x=$('gauge').getContext('2d'),W2=840;
+  function ease(p){return p*p*(3-2*p)}
+  function noise(i,s){return Math.sin(i*12.9898+s)*43758.5453%1}
+  function draw(p){p=Math.max(0,Math.min(1,p));var e=ease(p),fps=Math.round(48+e*192);x.clearRect(0,0,W2,W2);
+    var cx=420,cy=360,R=250,a0=Math.PI*.8,a1=Math.PI*2.2;x.lineWidth=18;x.lineCap='round';
+    x.strokeStyle='#1b261f';x.beginPath();x.arc(cx,cy,R,a0,a1);x.stroke();
+    x.strokeStyle='#22ff88';x.shadowColor='#22ff88';x.shadowBlur=24;x.beginPath();x.arc(cx,cy,R,a0,a0+(a1-a0)*(fps/240));x.stroke();x.shadowBlur=0;
+    for(var i=0;i<=24;i++){var a=a0+(a1-a0)*i/24,l=i%6?34:46;x.strokeStyle=i/24<=fps/240?'#22ff88':'#26352c';x.lineWidth=2;x.beginPath();x.moveTo(cx+Math.cos(a)*(R+26),cy+Math.sin(a)*(R+26));x.lineTo(cx+Math.cos(a)*(R+l),cy+Math.sin(a)*(R+l));x.stroke()}
+    x.fillStyle='#f4f7f5';x.textAlign='center';x.font='900 150px Unbounded, sans-serif';x.fillText(fps,cx,cy+36);
+    x.fillStyle='#8d9d93';x.font='400 28px Geist, sans-serif';x.fillText('frames per second',cx,cy+90);
+    var gx=70,gy=640,gw=700,gh=120;x.strokeStyle='#1b261f';x.lineWidth=1;
+    for(var k=0;k<4;k++){x.beginPath();x.moveTo(gx,gy+k*gh/3);x.lineTo(gx+gw,gy+k*gh/3);x.stroke()}
+    x.strokeStyle='#22ff88';x.lineWidth=3;x.shadowColor='#22ff88';x.shadowBlur=12;x.beginPath();var sp=1-e;
+    for(var j=0;j<=70;j++){var v=.62-e*.38+(Math.abs(noise(j,3))-.5)*.35*sp+(j%9==4?1:0)*sp*.36,py=gy+gh*Math.max(.04,Math.min(.98,v)),px=gx+gw*j/70;j?x.lineTo(px,py):x.moveTo(px,py)}
+    x.stroke();x.shadowBlur=0;x.fillStyle='#8d9d93';x.font='400 24px Geist, sans-serif';x.textAlign='left';x.fillText('Frame time  '+(1000/fps).toFixed(1)+' ms',gx,gy-18);
+    x.textAlign='right';x.fillStyle=p>.66?'#22ff88':'#8d9d93';x.fillText(p>.66?'smooth':'stutter',gx+gw,gy-18);
+    bar.style.width=p*100+'%';var idx=p<.28?0:p<.7?1:2;st.forEach(function(s,i){s.classList.toggle('on',i===idx)})}
+  function onScroll(){var m=document.documentElement.scrollHeight-innerHeight,p=m>0?scrollY/m:0;prog.style.width=p*100+'%';fe.textContent=Math.round(60+p*180);
+    if(sec.offsetHeight){var b=sec.getBoundingClientRect();draw(-b.top/(sec.offsetHeight-innerHeight))}}
+  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);
+  addEventListener('hashchange',route);
+  route();(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(onScroll);
+})();
+</script>
+</body>
+</html>
