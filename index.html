@@ -7,17 +7,17 @@
 <meta name="color-scheme" content="dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;900&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Geist:wght@300;400;500&family=Unbounded:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a0a;--panel:#0e130f;--line:#1b261f;--fg:#f4f7f5;--mute:#8d9d93;--g:#22ff88;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#0a0a0a;--panel:#0e130f;--line:#1b261f;--fg:#f4f7f5;--mute:#8d9d93;--g:#22ff88;--ink:#0a0a0a;--paper:#f5f7f5;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--fg);font:300 17px/1.6 Geist,system-ui,sans-serif;overflow-x:hidden}
-h1,h2,h3{font-family:Unbounded,Geist,sans-serif;margin:0;line-height:1.08;letter-spacing:-.02em}
+h1,h2,h3{font-family:Unbounded,Geist,sans-serif;margin:0;line-height:1.1;letter-spacing:-.02em}
 a{color:inherit}p{margin:0}
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 .c{text-align:center}
-.lbl{display:inline-block;color:var(--g);font:500 14px Unbounded;margin-bottom:22px}
+.hand{font-family:Caveat,cursive;font-weight:600}
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(520px circle at var(--mx,50%) var(--my,30%),#22ff8820,transparent 70%)}
 .bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(#1b261f99 1px,transparent 1px),linear-gradient(90deg,#1b261f99 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 60% at 50% 35%,#000,transparent);mask-image:radial-gradient(70% 60% at 50% 35%,#000,transparent)}
 .bg::after{content:"";position:absolute;width:60vmax;height:60vmax;left:-20vmax;top:-25vmax;background:radial-gradient(circle,#22ff8822,transparent 65%);animation:drift 14s ease-in-out infinite alternate}
@@ -28,17 +28,20 @@ nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;di
 .logo{font:900 15px Unbounded;text-decoration:none;display:flex;gap:10px;align-items:center;white-space:nowrap}
 .logo i,.badge i{width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 14px var(--g);animation:pulse 1.3s infinite}
 @keyframes pulse{50%{opacity:.3}}
-.links{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
-.links a{text-decoration:none;color:var(--mute);padding:8px 16px;border-radius:999px;font-size:15px;transition:color .2s,background .2s;white-space:nowrap}
-.links a:hover,.links a.act{color:var(--fg);background:#ffffff10}
-.btn{display:inline-block;padding:15px 30px;border-radius:999px;background:var(--g);color:#031008;font-weight:500;text-decoration:none;border:0;font:500 16px Geist;cursor:pointer;transition:box-shadow .25s,transform .25s}
+.links{display:flex;gap:6px}
+.links a{text-decoration:none;color:var(--mute);padding:8px 16px;border-radius:999px;font-size:15px;transition:color .2s,background .2s}
+.links a:hover,.links a.act{color:var(--fg);background:#ffffff12}
+.burger{display:none;background:none;border:1px solid #2c3d33;border-radius:12px;width:44px;height:40px;color:var(--fg);font-size:20px;cursor:pointer}
+.btn{display:inline-block;padding:15px 30px;border-radius:999px;background:var(--g);color:#031008;text-decoration:none;border:0;font:500 16px Geist;cursor:pointer;transition:box-shadow .25s,transform .25s}
 .btn:hover{box-shadow:0 10px 40px #22ff8855}
 .btn.ghost{background:none;color:var(--fg);border:1px solid #2c3d33}
 .btn.sm{padding:10px 20px;font-size:15px}
-.btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+.paper .btn.ghost{color:var(--ink);border-color:var(--ink)}
+:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+.paper :focus-visible{outline-color:var(--ink)}
 .page{display:none;padding-top:70px}.page.on{display:block;animation:pg .8s cubic-bezier(.2,.8,.2,1)}
 @keyframes pg{from{opacity:0;transform:translateY(26px);filter:blur(8px)}}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
 .reveal.in{opacity:1;transform:none}
 /* hero */
 .hero{min-height:calc(100svh - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px 70px}
@@ -47,15 +50,14 @@ nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;di
 #title span{display:inline-block;transform:translateY(115%);animation:up 1s cubic-bezier(.2,.8,.2,1) forwards}
 #title .g{color:var(--g);text-shadow:0 0 60px #22ff8866}
 @keyframes up{to{transform:none}}
-.roll{font:600 clamp(18px,2.6vw,30px) Unbounded;margin:22px 0 14px}
-.roll b{color:var(--g);display:inline-block;animation:swap .6s}
-@keyframes swap{from{opacity:0;transform:translateY(14px)}}
-.sub{max-width:48ch;color:var(--mute);font-size:18px;margin-bottom:34px}
+.lead{font:600 clamp(20px,3vw,34px)/1.35 Unbounded;max-width:22ch;margin:26px 0 16px}
+.sq{position:relative;white-space:nowrap;color:var(--g)}
+.sq svg{position:absolute;left:0;bottom:-.3em;width:100%;height:.45em;fill:none;stroke:var(--g);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s 1.5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.sub{max-width:46ch;color:var(--mute);font-size:18px;margin-bottom:32px}
 .row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-block:1px solid var(--line);background:#0a0a0acc;text-align:center}
-.stats div{padding:46px 20px;border-right:1px solid var(--line)}.stats div:last-child{border:0}
-.stats b{display:block;font:900 clamp(38px,5vw,60px) Unbounded;color:var(--g);text-shadow:0 0 30px #22ff8855}
-.stats span{color:var(--mute);font-size:15px}
+.note{display:inline-block;margin-top:40px;background:var(--paper);color:var(--ink);font:600 27px Caveat,cursive;padding:8px 24px 12px;transform:rotate(-2.5deg);position:relative;box-shadow:5px 6px 0 #22ff8855}
+.note::before{content:"";position:absolute;top:-11px;left:50%;width:70px;height:20px;margin-left:-35px;transform:rotate(3deg);background:#22ff8899}
 /* scrub */
 .scrub{height:340vh;position:relative}
 .stick{position:sticky;top:70px;height:calc(100svh - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:10px 24px;text-align:center}
@@ -68,61 +70,89 @@ nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;di
 .gauge canvas{width:100%;height:100%;display:block}
 .bar{position:absolute;left:24px;right:24px;bottom:16px;height:3px;background:var(--line);border-radius:3px}
 .bar i{display:block;height:100%;width:0;background:var(--g);border-radius:3px;box-shadow:0 0 14px var(--g)}
-/* sections */
+/* paper sections */
 .pad{padding:120px 0}
-h2.big{font-size:clamp(30px,5vw,62px);max-width:17ch}
-.c h2.big{margin:0 auto}
+.paper{position:relative;z-index:1;background:var(--paper);color:var(--ink)}
+.paper p{color:#34403a}
+mark{color:inherit;background:linear-gradient(transparent 52%,#22ff8899 52%,#22ff8899 90%,transparent 90%);padding:0 .12em;margin:0 -.12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.about{display:grid;grid-template-columns:200px 1fr;gap:56px;align-items:center;max-width:900px}
+.avatar{width:200px;height:200px;border-radius:50%;background:var(--ink);color:var(--g);font:900 84px/200px Unbounded;text-align:center;box-shadow:0 0 0 6px var(--paper),0 0 0 9px var(--g);transform:rotate(-4deg);overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.about h2{font-size:clamp(28px,4vw,46px);margin-bottom:20px}
+.about p{font-size:19px;max-width:46ch;margin-bottom:14px}
+h2.big{font-size:clamp(30px,5vw,60px);max-width:17ch;margin:0 auto}
+.mutep{color:var(--mute);margin-top:16px}
+/* chat */
+.chat{max-width:560px;margin:46px auto 0;display:grid;gap:10px;text-align:left;min-height:440px;align-content:start}
+.msg{max-width:84%;padding:12px 18px;border-radius:20px;font-size:16px;line-height:1.45;animation:pop .4s cubic-bezier(.2,.8,.2,1)}
+.msg.y{justify-self:start;background:#1a221d;border-bottom-left-radius:6px}
+.msg.m{justify-self:end;background:var(--g);color:#03130a;border-bottom-right-radius:6px}
+.typing{display:flex;gap:5px;padding:16px 20px}.typing i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.5;animation:blink 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:1;transform:translateY(-3px)}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}}
+/* pages */
 .phead{padding:90px 0 30px;text-align:center}
-.phead h1{font-size:clamp(46px,9vw,120px);font-weight:900;letter-spacing:-.04em}
-.phead p{color:var(--mute);max-width:48ch;margin:22px auto 0;font-size:18px}
+.phead h1{font-size:clamp(44px,8.5vw,112px);font-weight:900;letter-spacing:-.04em}
+.phead p{color:var(--mute);max-width:46ch;margin:22px auto 0;font-size:18px}
 .spot{position:relative;overflow:hidden}
 .spot::after{content:"";position:absolute;inset:0;background:radial-gradient(340px circle at var(--sx,50%) var(--sy,50%),#22ff8820,transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
 .spot:hover::after{opacity:1}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:56px}
-.card{border:1px solid var(--line);border-radius:24px;padding:34px 28px;background:var(--panel);text-align:left;transition:border-color .3s}
-.card:hover{border-color:#1f6b40}.card h3{font-size:19px;margin:12px 0 10px}.card p{color:var(--mute);font-size:16px}
-.card .lbl{margin:0}
-.svc{margin-top:40px;border-top:1px solid var(--line)}
-.srow{display:grid;grid-template-columns:90px 1.3fr 1fr;gap:24px;padding:42px 0;border-bottom:1px solid var(--line);align-items:center;text-align:left;transition:background .3s}
-.srow:hover{background:#22ff8808}
-.srow .n{font:900 44px Unbounded;color:#2a3a31;transition:color .3s}.srow:hover .n{color:var(--g)}
-.srow h3{font-size:clamp(22px,2.8vw,34px);margin-bottom:6px}.srow b{display:block;color:var(--g);font:500 15px Geist;margin-bottom:10px}
+.svc{margin-top:30px;border-top:1px solid var(--line)}
+.srow{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;padding:40px 0;border-bottom:1px solid var(--line);align-items:center;text-align:left}
+.srow h3{font-size:clamp(22px,2.8vw,32px);margin-bottom:6px}
+.srow b{display:block;color:var(--g);font:600 26px Caveat,cursive;margin-bottom:8px}
 .srow p{color:var(--mute);max-width:44ch}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .chips em{font-style:normal;font-size:14px;border:1px solid #26362c;border-radius:999px;padding:5px 14px;color:#cfdad3}
-.chips small{width:100%;color:var(--mute);margin-top:6px}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:56px}
-.steps .card{text-align:center}.steps .n{font:900 34px Unbounded;color:var(--g)}
-/* pricing */
-.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:860px;margin:30px auto 0}
-.plan{border:1px solid var(--line);border-radius:28px;padding:44px 32px;background:var(--panel);text-align:center}
+.sticker{display:inline-block;font:600 22px Caveat,cursive;padding:1px 16px 3px;border-radius:8px;background:var(--g);color:#031008;transform:rotate(-3deg);margin-top:8px}
+.sticker.f{background:var(--paper)}
+.srow:nth-child(even) .sticker{transform:rotate(2.5deg)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:40px;margin-top:56px;text-align:left}
+.steps .n{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:var(--ink);color:var(--g);font:700 22px Unbounded;transform:rotate(-6deg);margin-bottom:16px}
+.steps h3{font-size:20px;margin-bottom:8px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:30px;max-width:840px;margin:70px auto 0;position:relative}
+.plan{border:1px solid var(--line);border-radius:22px;padding:44px 32px;background:var(--panel);text-align:center;transition:transform .4s,border-color .3s}
+article.plan:nth-of-type(1){transform:rotate(-1.2deg)}article.plan:nth-of-type(2){transform:rotate(1deg)}
+.plan:hover{transform:none;border-color:var(--g)}
 .plan.full{background:linear-gradient(160deg,#0d2a1a,#09100b 60%);border-color:#1f6b40}
-.tag{display:inline-block;margin-bottom:12px;font-size:13px;color:var(--g);border:1px solid #1f6b40;border-radius:999px;padding:3px 14px}
-.price{font:900 clamp(44px,6vw,68px) Unbounded;margin:16px 0 6px}
+.doodle{position:absolute;right:-10px;top:-64px;font:600 27px Caveat,cursive;color:var(--g);transform:rotate(4deg);display:flex;align-items:flex-end;gap:4px;pointer-events:none}
+.price{font:900 clamp(44px,6vw,68px) Unbounded;margin:14px 0 6px}
 .plan small{color:var(--mute)}
 .plan ul{list-style:none;padding:0;margin:26px 0 34px;display:grid;gap:12px;justify-items:center}
 .plan li::before{content:"";display:inline-block;width:12px;height:7px;margin-right:12px;border-left:2px solid var(--g);border-bottom:2px solid var(--g);transform:rotate(-45deg) translateY(-3px)}
-.tbl{max-width:860px;margin:70px auto 0;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--panel)}
-.tbl div{display:grid;grid-template-columns:1fr 90px 90px;padding:18px 26px;border-bottom:1px solid var(--line);text-align:left}
+.quiz{max-width:640px;margin:90px auto 0;border-radius:26px;padding:40px;text-align:left;box-shadow:8px 8px 0 #22ff8866}
+.quiz h2{font-size:clamp(22px,3vw,30px);margin-bottom:6px}
+.quiz h3{font-size:20px;margin:6px 0 4px}
+.dots{display:flex;gap:6px;margin:18px 0}.dots i{width:30px;height:6px;border-radius:6px;background:#cfd8d2}.dots i.on{background:var(--ink)}
+.opts{display:grid;gap:10px;margin:20px 0 4px}
+.opts button{font:400 17px Geist;text-align:left;background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:14px;padding:14px 18px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s,background .15s}
+.opts button:hover{background:var(--g);transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.quiz .row{justify-content:flex-start;margin-top:22px}
+.tbl{max-width:840px;margin:80px auto 0;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--panel)}
+.tbl div{display:grid;grid-template-columns:1fr 90px 90px;padding:17px 26px;border-bottom:1px solid var(--line);text-align:left}
 .tbl div:last-child{border:0}.tbl .h{font:600 14px Unbounded;color:var(--mute)}.tbl span:not(:first-child){text-align:center;color:var(--g)}
-.pay{display:flex;gap:12px;justify-content:center;margin-top:30px;color:var(--mute);font-size:14px;flex-wrap:wrap}
+.pay{display:flex;gap:12px;justify-content:center;margin-top:30px;color:var(--mute);font-size:14px}
 .pay span{border:1px solid var(--line);border-radius:10px;padding:6px 16px}
-/* results */
-.ba{margin-top:56px;display:grid;gap:34px;max-width:860px;margin-inline:auto;text-align:left}
+.card2{position:relative;max-width:840px;margin:50px auto 0;border:1px solid var(--line);border-radius:24px;padding:48px 40px 40px;background:var(--panel)}
+.stamp{position:absolute;right:26px;top:18px;border:3px solid var(--g);color:var(--g);font:600 28px Caveat,cursive;padding:0 14px 2px;border-radius:8px;transform:rotate(6deg)}
+.ba{display:grid;gap:34px;text-align:left}
 .ba h3{font-size:18px;margin-bottom:14px}
-.ba div{display:grid;grid-template-columns:70px 1fr 90px;gap:14px;align-items:center;margin-bottom:8px;color:var(--mute);font-size:15px}
+.ba div{display:grid;grid-template-columns:70px 1fr 80px;gap:14px;align-items:center;margin-bottom:8px;color:var(--mute);font-size:15px}
 .ba i{display:block;height:12px;border-radius:12px;background:#2a3a31;width:0;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
-.ba div.a i{background:var(--g);box-shadow:0 0 18px #22ff8888}
-.ba div.a{color:var(--fg)}
-.in .ba i,.ba.in i{width:var(--w)}
-.big-n{font:900 clamp(60px,12vw,170px)/1 Unbounded;color:var(--g);text-shadow:0 0 60px #22ff8855;margin:20px 0}
-.note{color:var(--mute);font-size:14px;margin-top:40px}
-/* contact */
-.build{max-width:760px;margin:40px auto 0;border:1px solid var(--line);border-radius:28px;padding:34px;background:var(--panel);display:grid;gap:14px;text-align:left}
+.ba div.a i{background:var(--g);box-shadow:0 0 18px #22ff8888}.ba div.a{color:var(--fg)}
+.in .ba i{width:var(--w)}
+.react{display:grid;place-content:center;gap:6px;width:min(560px,100%);height:260px;margin:34px auto 0;border-radius:26px;border:2px dashed #2c3d33;background:var(--panel);color:var(--fg);cursor:pointer;text-align:center;font:inherit;transition:background .15s}
+.react b{font:900 clamp(28px,5vw,44px) Unbounded}.react span{color:var(--mute);padding:0 20px}
+.react.wait{background:#171d19;border-style:solid}
+.react.go{background:var(--g);color:#03130a;border-color:var(--g)}.react.go span{color:#03130a}
+.react.early{background:var(--paper);color:var(--ink)}.react.early span{color:#34403a}
+.react.done{border:2px solid var(--g)}
+.build{max-width:760px;margin:40px auto 0;border:1px solid var(--line);border-radius:26px;padding:34px;background:var(--panel);display:grid;gap:14px;text-align:left}
 .build label{font-size:14px;color:var(--mute);display:grid;gap:6px}
 .build input,.build select,.build textarea{background:#080b09;border:1px solid #26362c;border-radius:14px;padding:14px 16px;color:var(--fg);font:300 16px Geist;width:100%}
 .build textarea{min-height:130px;resize:vertical}
-.faq{max-width:760px;margin:60px auto 0;display:grid;gap:12px;text-align:left}
+.chan{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.faq{max-width:760px;margin:70px auto 0;display:grid;gap:12px;text-align:left}
 .faq details{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:0 26px;transition:border-color .3s}
 .faq details[open]{border-color:#1f6b40}
 .faq summary{list-style:none;cursor:pointer;padding:22px 0;font:500 16px Unbounded;display:flex;justify-content:space-between;gap:16px;align-items:center}
@@ -130,49 +160,75 @@ h2.big{font-size:clamp(30px,5vw,62px);max-width:17ch}
 .faq summary::after{content:"+";color:var(--g);font-size:26px;transition:transform .3s}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{margin-bottom:24px;color:var(--mute)}
-/* cta + footer */
 .cta{padding:150px 0 130px;text-align:center;background:radial-gradient(60% 70% at 50% 100%,#22ff8826,#0a0a0af2 70%),#0a0a0af2;border-top:1px solid var(--line)}
-body[data-r=contact] .cta{display:none}
+body[data-r=contact] .cta,body[data-r=refund] .cta,body[data-r=terms] .cta{display:none}
 .cta h2{font-size:clamp(34px,7vw,92px);font-weight:900;margin:0 auto 22px;max-width:13ch}
 .cta p{color:var(--mute);margin:0 auto 34px;max-width:44ch}
-.checks{display:flex;gap:10px 26px;justify-content:center;flex-wrap:wrap;margin-top:34px;color:#cfdad3;font-size:15px}
-.checks span::before{content:"✦ ";color:var(--g)}
 footer{background:#070707;border-top:1px solid var(--line);padding:70px 24px 30px}
 .fgrid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
 footer h3{font:600 13px Unbounded;color:var(--mute);margin-bottom:16px}
 footer a{display:block;text-decoration:none;color:#cfdad3;padding:4px 0}footer a:hover{color:var(--g)}
+footer .logo{display:flex;padding:0}
 .copy{max-width:1100px;margin:50px auto 0;padding-top:24px;border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .fpill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:19;display:flex;gap:12px;align-items:center;padding:10px 22px;border:1px solid #1f6b40;border-radius:999px;background:#07100bd9;backdrop-filter:blur(12px);font:500 13px Unbounded;box-shadow:0 0 30px #22ff8822}
 .fpill b{color:var(--g);min-width:3ch;text-align:right}
-@media(max-width:820px){nav{padding:12px 14px}nav .btn{display:none}.srow{grid-template-columns:1fr;gap:12px;padding:34px 0}.fgrid{grid-template-columns:1fr 1fr}.ba div{grid-template-columns:56px 1fr 74px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}#title span{transform:none}.reveal{opacity:1;transform:none}.ba i{width:var(--w)}}
+#toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,20px);background:var(--paper);color:var(--ink);padding:12px 22px;border-radius:14px;font-weight:500;opacity:0;pointer-events:none;transition:.3s;z-index:40;box-shadow:4px 4px 0 var(--g)}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+.trust{display:flex;gap:10px 26px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-size:15px;color:var(--mute)}
+.trust a,.refundnote a{color:var(--g);text-decoration:underline;text-decoration-color:#22ff8866;text-underline-offset:4px}
+.refundnote{margin-top:26px;text-align:center;color:var(--mute);font-size:15px}
+button.fpill{color:var(--fg);cursor:pointer}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:40px;text-align:left}
+.rgrid .card2{margin:0;padding:32px 28px}
+.rgrid h3{font-size:19px;margin-bottom:16px}
+.rgrid ul{margin:0;padding:0;list-style:none;display:grid;gap:12px;color:#cfdad3;font-size:16px}
+.rgrid li{padding-left:24px;position:relative}
+.rgrid li::before{content:"";position:absolute;left:0;top:.75em;width:12px;height:2px;background:var(--g)}
+.rgrid .no li::before{background:var(--mute)}
+.pfs{display:grid;gap:10px}
+.build label.pfl{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid #26362c;border-radius:14px;cursor:pointer;color:var(--fg);font-size:16px;transition:border-color .2s,background .2s}
+.build label.pfl:has(input:checked){border-color:var(--g);background:#22ff8810}
+.pfl input{width:20px;height:20px;margin-top:3px;accent-color:var(--g);flex:none}
+.pfl small{display:block;color:var(--mute);font-size:14px}
+.thumbs{display:flex;flex-wrap:wrap;gap:12px}
+.th{width:120px;font-size:12px;color:var(--mute);word-break:break-all}
+.th img{width:120px;height:80px;object-fit:cover;border-radius:10px;display:block;margin-bottom:4px}
+.rmiss{font-size:15px;color:var(--mute);padding:12px 16px;border-radius:12px;border:1px dashed #2c3d33}
+.rmiss.ok{color:var(--g);border-color:#1f6b40}
+.rev:not(:empty){margin-top:110px}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:40px}
+.quotes figure{margin:0;border:1px solid var(--line);border-radius:22px;padding:30px;background:var(--panel);text-align:left}
+.quotes blockquote{margin:0 0 16px;font-size:18px}
+.quotes figcaption{color:var(--g);font:600 24px Caveat,cursive}
+@media(max-width:820px){nav{padding:12px 14px}nav>.btn{display:none}.burger{display:block}
+ .links{display:none}nav.open .links{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0a0a0af7;padding:10px 14px 20px;border-bottom:1px solid var(--line)}
+ .srow{grid-template-columns:1fr;gap:14px;padding:32px 0}.about{grid-template-columns:1fr;gap:34px;text-align:center;justify-items:center}.about p{margin-inline:auto}
+ .fgrid{grid-template-columns:1fr 1fr}.ba div{grid-template-columns:56px 1fr 60px}.doodle{display:none}.card2{padding:56px 22px 28px}.quiz{padding:28px 22px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}#title span{transform:none}.reveal{opacity:1;transform:none}.in .ba i{width:var(--w)}.sq svg{stroke-dashoffset:0}}
 </style>
 </head>
 <body data-r="home">
 <div id="prog"></div><div class="bg" id="bg"></div>
-<div class="fpill" aria-hidden="true">FPS <b id="fps">60</b></div>
+<button class="fpill" id="top" type="button" aria-label="Back to top">FPS <b id="fps">60</b></button>
+<div id="toast" role="status"></div>
 <nav>
   <a class="logo" href="#home"><i></i>ZERO LAG</a>
   <div class="links"><a data-nav="home" href="#home">Home</a><a data-nav="services" href="#services">Services</a><a data-nav="pricing" href="#pricing">Pricing</a><a data-nav="results" href="#results">Results</a><a data-nav="contact" href="#contact">Contact</a></div>
-  <a class="btn sm dm" href="#contact">Book now</a>
+  <a class="btn sm" href="#contact">Book now</a>
+  <button class="burger" aria-label="Menu" aria-expanded="false">☰</button>
 </nav>
 
 <main>
-<!-- HOME -->
 <div class="page" data-p="home">
   <header class="hero">
-    <div class="badge"><i></i>Available for bookings</div>
+    <div class="badge"><i></i>Taking new bookings</div>
     <h1 id="title" aria-label="Zero Lag">ZERO LAG</h1>
-    <p class="roll">PC tuning that <b id="roll">boosts FPS.</b></p>
-    <p class="sub">I strip out what slows your Windows PC down and tune what makes it fast, so your games run smoother and respond sooner.</p>
-    <div class="row"><a class="btn" href="#pricing">See prices</a><a class="btn ghost" href="#services">What I tune</a></div>
+    <p class="lead">Hi. I tune slow Windows PCs until games feel <span class="sq">faster<svg viewBox="0 0 220 14" preserveAspectRatio="none"><path pathLength="1" d="M2 9 C 20 1, 34 13, 54 6 S 90 2, 110 8 S 150 12, 170 5 S 205 4, 218 8"/></svg></span>.</p>
+    <p class="sub">More FPS, less input lag, and a short note afterwards on what I changed.</p>
+    <div class="row"><a class="btn" href="#pricing">See what it costs</a><a class="btn ghost" href="#contact">Message me</a></div>
+    <div class="note">Light starts at €5. Yes, five.</div>
   </header>
-  <div class="stats">
-    <div class="reveal"><b data-n="5" data-pre="€">0</b><span>Starting price</span></div>
-    <div class="reveal"><b data-n="2">0</b><span>Plans to choose from</span></div>
-    <div class="reveal"><b data-n="6">0</b><span>Areas of your PC tuned</span></div>
-    <div class="reveal"><b data-n="1">0</b><span>DM to book</span></div>
-  </div>
   <div class="scrub" id="scrub"><div class="stick">
     <h2>Watch your frame time flatten out.</h2>
     <div class="states" id="states">
@@ -182,73 +238,121 @@ footer a{display:block;text-decoration:none;color:#cfdad3;padding:4px 0}footer a
     </div>
     <div class="gauge"><canvas id="gauge" width="840" height="840"></canvas><div class="bar"><i id="bar"></i></div></div>
   </div></div>
-  <section class="pad c"><div class="wrap">
-    <span class="lbl reveal">✦ Why it works</span>
-    <h2 class="big reveal">Not magic. Just a cleaner, faster Windows.</h2>
-    <div class="cards">
-      <div class="card spot reveal"><span class="lbl">Less</span><h3>Less running in the background</h3><p>Startup junk, telemetry and unused services stop fighting your game for CPU.</p></div>
-      <div class="card spot reveal"><span class="lbl">More</span><h3>More power where it counts</h3><p>Power plan and GPU settings keep your hardware at full speed while you play.</p></div>
-      <div class="card spot reveal"><span class="lbl">Better</span><h3>Settings that fit your games</h3><p>Registry, network and game config tuned for lower input delay and steadier ping.</p></div>
+  <section class="paper pad"><div class="wrap about">
+    <div class="avatar" id="avatar">Z</div>
+    <div>
+      <h2>Hey, I'm <span id="me">the person behind Zero Lag</span>.</h2>
+      <p>I look at what is <mark>actually running</mark> on your PC, remove what you don't need and tune the rest for the way you play.</p>
+      <p>Then I tell you what I changed, <mark>in plain words</mark>, so nothing about your own computer stays a mystery.</p>
+      <a class="btn ghost sm" href="#services" style="margin-top:10px">See what I tune</a>
     </div>
-    <div class="row reveal" style="margin-top:50px"><a class="btn ghost" href="#services">See every service</a></div>
+  </div></section>
+  <section class="pad c"><div class="wrap">
+    <h2 class="big reveal">This is what booking looks like.</h2>
+    <p class="mutep reveal">An example chat. No accounts, no forms, just a DM.</p>
+    <div class="chat" id="chat" aria-live="polite"></div>
   </div></section>
 </div>
 
-<!-- SERVICES -->
 <div class="page" data-p="services">
-  <div class="phead wrap"><span class="lbl">✦ What I do</span><h1>Services</h1><p>Six areas of your PC, tuned for FPS and low latency. Light covers the first three, Full covers all six.</p></div>
-  <div class="wrap"><div class="svc" id="svc"></div>
-    <div class="steps c" id="steps"></div></div>
-  <div style="height:110px"></div>
+  <div class="phead wrap"><h1>What I tune</h1><p>Six areas of your PC. Light covers the first three, Full covers all six.</p></div>
+  <div class="wrap"><div class="svc" id="svc"></div></div>
+  <section class="paper pad" style="margin-top:100px"><div class="wrap c">
+    <h2 class="big">How it goes</h2>
+    <div class="steps" id="steps"></div>
+  </div></section>
 </div>
 
-<!-- PRICING -->
 <div class="page" data-p="pricing">
-  <div class="phead wrap"><span class="lbl">✦ Prices</span><h1>Pick your level</h1><p>Clear prices. Pay by SEPA or PayPal.</p></div>
+  <div class="phead wrap"><h1>What it costs</h1><p>Two options. Pay by SEPA or PayPal.</p></div>
   <div class="wrap">
     <div class="plans">
-      <article class="plan spot reveal"><h3>Light</h3><div class="price">€5</div><small>Quick and clean</small><ul><li>Windows debloat</li><li>Power plan setup</li><li>GPU tweaks</li></ul><a class="btn ghost" href="#contact" data-plan="Light (€5)">Book Light</a></article>
-      <article class="plan full spot reveal"><span class="tag">Best results</span><h3>Full</h3><div class="price">€10–15</div><small>Price depends on your setup</small><ul><li>Everything in Light</li><li>Deep registry and network tweaks</li><li>BIOS check</li><li>Game config</li></ul><a class="btn" href="#contact" data-plan="Full (€10–15)">Book Full</a></article>
+      <div class="doodle"><span>go here for the full job</span><svg width="56" height="50" viewBox="0 0 60 50" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M52 4C40 6 22 14 14 40"/><path d="M5 30l9 11 12-9"/></svg></div>
+      <article class="plan spot"><h3>Light</h3><div class="price">€5</div><small>Quick and clean</small><ul><li>Windows debloat</li><li>Power plan setup</li><li>GPU tweaks</li></ul><a class="btn ghost" href="#contact" data-plan="Light (€5)">Book Light</a></article>
+      <article class="plan full spot"><h3>Full</h3><div class="price">€10–15</div><small>Price depends on your setup</small><ul><li>Everything in Light</li><li>Deep registry and network tweaks</li><li>BIOS check</li><li>Game config</li></ul><a class="btn" href="#contact" data-plan="Full (€10–15)">Book Full</a></article>
     </div>
+    <div class="quiz paper"><h2>Not sure which one?</h2><p>Three quick questions and I'll point you to a plan.</p><div id="quiz"></div></div>
     <div class="tbl reveal" id="tbl"></div>
     <div class="pay"><span>SEPA</span><span>PayPal</span></div>
+    <p class="refundnote">Not happy with a finished job? <a href="#refund">Request a refund</a>. You will need proof.</p>
   </div>
   <div style="height:110px"></div>
 </div>
 
-<!-- RESULTS -->
 <div class="page" data-p="results">
-  <div class="phead wrap"><span class="lbl">✦ Results</span><h1>What changes</h1><p>Higher FPS, higher 1% lows and lower input delay. The figures below are examples for layout only.</p></div>
+  <div class="phead wrap"><h1>What changes</h1><p>Higher FPS, steadier frames and lower input delay. The numbers below are just an example.</p></div>
   <div class="wrap c">
-    <div class="big-n reveal" data-n="45" data-pre="+" data-suf="% FPS">0</div>
-    <div class="ba reveal" id="ba"></div>
-    <p class="note">Example figures. Replace them with your own client results before you share this page.</p>
+    <div class="card2 reveal"><span class="stamp" id="stamp">example</span><div class="ba" id="ba"></div></div>
+    <div class="rev" id="rev"></div>
+    <h2 class="big reveal" style="margin-top:120px">While you're here, test your reflexes.</h2>
+    <p class="mutep">Input delay is my job. Your reaction time is on you.</p>
+    <button class="react" id="react" type="button"></button>
   </div>
-  <div style="height:110px"></div>
+  <div style="height:120px"></div>
 </div>
 
-<!-- CONTACT -->
 <div class="page" data-p="contact">
-  <div class="phead wrap"><span class="lbl">✦ Book now</span><h1>Let's talk</h1><p>Fill in the details, copy the message and send it to me in a DM.</p></div>
+  <div class="phead wrap"><h1>Message me</h1><p>Fill this in, copy the message and send it to me in a DM.</p></div>
   <div class="wrap">
     <div class="build reveal">
       <label>Plan<select id="plan"><option>Light (€5)</option><option>Full (€10–15)</option></select></label>
       <label>Your PC<input id="hw" placeholder="CPU, GPU, RAM"></label>
       <label>Main game<input id="game" placeholder="Which game do you play most?"></label>
       <label>Your message<textarea id="msg" readonly></textarea></label>
-      <div class="row"><button class="btn" id="copy" type="button">Copy message</button><a class="btn ghost dm" href="#contact">Open DM</a></div>
+      <div class="row"><button class="btn" id="copy" type="button">Copy message</button><a class="btn ghost dm" data-copy href="#contact">Copy and open DM</a></div>
     </div>
+    <div class="chan" id="chan"></div>
+    <p class="refundnote">Something wrong with a finished job? <a href="#refund">Request a refund</a></p>
     <div class="faq reveal" id="faq"></div>
   </div>
+  <div style="height:120px"></div>
+</div>
+<div class="page" data-p="refund">
+  <div class="phead wrap"><h1>Refund request</h1><p>If something went wrong, I want to fix it. Refunds need proof, so gather it first.</p></div>
+  <div class="wrap">
+    <div class="rgrid">
+      <div class="card2"><h3>I can refund when</h3><ul><li>The service was not done as described</li><li>Your PC is not faster, or got worse, and your benchmarks show it</li><li>You were charged the wrong amount or twice</li></ul></div>
+      <div class="card2 no"><h3>I can't refund when</h3><ul><li>There is no proof</li><li>The request comes more than <span class="rdays">7</span> days after the service</li><li>The problem comes from changes made after the tuning, a new game update or failing hardware</li></ul></div>
+    </div>
+  </div>
+  <section class="paper pad" style="margin-top:90px"><div class="wrap c"><h2 class="big">How a refund works</h2><div class="steps" id="rsteps"></div></div></section>
+  <div class="wrap">
+    <div class="build" id="rform" style="margin-top:90px">
+      <h2 style="font-size:clamp(24px,3.4vw,36px)">Your request</h2>
+      <label>Plan you bought<select id="rplan"><option>Light (€5)</option><option>Full (€10–15)</option></select></label>
+      <label>Paid with<select id="rpm"><option>PayPal</option><option>SEPA bank transfer</option></select></label>
+      <label>Payment reference or transaction ID<input id="rref" placeholder="From your PayPal or bank receipt"></label>
+      <label>What went wrong?<select id="rwhy"><option>The service was not done as described</option><option>The PC is not faster or got worse</option><option>I was charged the wrong amount or twice</option><option>Something else</option></select></label>
+      <label>Tell me what happened<textarea id="rtxt" placeholder="What did you expect, and what did you get instead?"></textarea></label>
+      <div class="pfs"><span style="font-size:14px;color:var(--mute)">Proof you will send with it</span>
+        <label class="pfl"><input type="checkbox" class="pf" data-k="receipt" data-l="payment receipt"><span>Payment receipt<small>Required. A PayPal or bank screenshot.</small></span></label>
+        <label class="pfl"><input type="checkbox" class="pf" data-k="before" data-l="before benchmark"><span>Before benchmark<small>Needed if the PC is not faster. Screenshot or clip of your FPS before the tuning.</small></span></label>
+        <label class="pfl"><input type="checkbox" class="pf" data-k="after" data-l="after benchmark"><span>After benchmark<small>Needed if the PC is not faster. Same game, same settings, after the tuning.</small></span></label>
+        <label class="pfl"><input type="checkbox" class="pf" data-k="other" data-l="other screenshots"><span>Anything else that shows the problem<small>Optional. Error messages, settings screenshots.</small></span></label>
+      </div>
+      <label>Check your files<input id="rpick" type="file" multiple accept="image/*,video/*,application/pdf"></label>
+      <div class="thumbs" id="rthumbs"></div>
+      <p style="font-size:14px;color:var(--mute)">Files you pick here stay on your device. Attach them in the DM when you send the request.</p>
+      <div class="rmiss" id="rmiss"></div>
+      <label>Your request<textarea id="rout" readonly></textarea></label>
+      <div class="row"><button class="btn" id="rcopy" type="button">Copy request</button><a class="btn ghost" id="ropen" href="#refund">Copy and open DM</a></div>
+    </div>
+  </div>
+  <div style="height:120px"></div>
+</div>
+
+<div class="page" data-p="terms">
+  <div class="phead wrap"><h1>Terms and privacy</h1><p>The short version, in plain words.</p></div>
+  <div class="wrap"><div class="faq" id="legal"></div><p class="mutep" id="biz" style="text-align:center;margin-top:40px"></p></div>
   <div style="height:120px"></div>
 </div>
 </main>
 
 <section class="cta"><div class="wrap">
   <h2 class="reveal">Ready for zero lag?</h2>
-  <p class="reveal">DM me to book your slot. Pay by SEPA or PayPal.</p>
-  <a class="btn dm" href="#contact">DM to book</a>
-  <div class="checks reveal"><span>Clear price up front</span><span>SEPA or PayPal</span><span>Summary of what changed</span></div>
+  <p class="reveal">Send me a DM and we'll get your PC sorted. Pay by SEPA or PayPal.</p>
+  <a class="btn dm" href="#contact">Book your slot</a>
+  <div class="trust"><a href="#refund">Refund policy</a><a href="#terms">Terms and privacy</a><span>SEPA or PayPal</span></div>
 </div></section>
 
 <footer>
@@ -256,65 +360,132 @@ footer a{display:block;text-decoration:none;color:#cfdad3;padding:4px 0}footer a
     <div><a class="logo" href="#home"><i></i>ZERO LAG</a><p style="color:var(--mute);margin-top:14px;max-width:30ch">PC FPS and latency optimization for Windows gamers.</p></div>
     <div><h3>Pages</h3><a href="#home">Home</a><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#results">Results</a></div>
     <div><h3>Plans</h3><a href="#pricing">Light · €5</a><a href="#pricing">Full · €10–15</a></div>
-    <div><h3>Contact</h3><a href="#contact">DM to book</a><a href="#contact">SEPA / PayPal</a></div>
+    <div><h3>Contact</h3><a href="#contact">Message me</a><a href="#contact">SEPA / PayPal</a><a href="#refund">Request a refund</a><a href="#terms">Terms and privacy</a></div>
   </div>
-  <div class="copy"><span>© 2026 Zero Lag</span><span>Available for bookings</span></div>
+  <div class="copy"><span>© 2026 Zero Lag</span><span>Updated November 2026</span></div>
 </footer>
 
 <script>
 (function(){
-  var DM_URL=''; /* paste your Instagram / Discord / Telegram link here */
+  /* ===== EDIT ME: your name, photo and DM links. Leave blank to hide. ===== */
+  var CONFIG={name:'',photo:'',business:'',refundDays:7,links:{discord:'',instagram:'',telegram:'',whatsapp:'',email:''},results:[],reviews:[]};
+  /* results: [['Average FPS',92,148]] = [label, before, after]. reviews: [['Great job!','Name']]. Leave empty to show the examples / hide reviews. */
   var $=function(i){return document.getElementById(i)},all=function(s){return [].slice.call(document.querySelectorAll(s))};
-  var SV=[['Windows debloat','Cut the dead weight.','Removes startup junk, telemetry and background services you never use.',['Startup apps','Background services','Telemetry'],1],
-   ['Power plan','Full speed, always.','Keeps your CPU and GPU at full speed instead of throttling mid-game.',['CPU boost','GPU clocks','Sleep states'],1],
-   ['GPU tweaks','Matched to how you play.','Driver and control panel settings set up for your games.',['Driver setup','Control panel','Game profiles'],1],
-   ['Registry and network','Lower delay, steadier ping.','Deep system tweaks that cut input delay and smooth out your connection.',['Input delay','Network stack','Timer settings'],0],
-   ['BIOS check','Hardware at its best.','I go through key settings like XMP/EXPO and resizable BAR with you.',['XMP / EXPO','Resizable BAR','Boost settings'],0],
-   ['Game config','FPS without ugly visuals.','In-game settings picked for the best mix of FPS and looks.',['Graphics settings','FPS caps','Launch options'],0]];
-  $('svc').innerHTML=SV.map(function(s,i){return '<article class="srow spot reveal"><span class="n">0'+(i+1)+'</span><div><h3>'+s[0]+'</h3><b>'+s[1]+'</b><p>'+s[2]+'</p></div><div class="chips">'+s[3].map(function(c){return '<em>'+c+'</em>'}).join('')+'<small>'+(s[4]?'Light and Full':'Full only')+'</small></div></article>'}).join('');
-  $('steps').innerHTML=[['Send a DM','Tell me your PC parts, your games and your plan.'],['Pay by SEPA or PayPal','We agree on the price and you pay before we start.'],['I tune your PC','You get a faster system and a short summary of what changed.']].map(function(s,i){return '<div class="card spot reveal"><span class="n">0'+(i+1)+'</span><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>'}).join('');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var SV=[['Windows debloat','cut the dead weight','Removes startup junk, telemetry and background services you never use.',['Startup apps','Background services','Telemetry'],1],
+   ['Power plan','full speed, always','Keeps your CPU and GPU at full speed instead of throttling mid-game.',['CPU boost','GPU clocks','Sleep states'],1],
+   ['GPU tweaks','matched to how you play','Driver and control panel settings set up for your games.',['Driver setup','Control panel','Game profiles'],1],
+   ['Registry and network','lower delay, steadier ping','Deep system tweaks that cut input delay and smooth out your connection.',['Input delay','Network stack','Timer settings'],0],
+   ['BIOS check','hardware at its best','I go through key settings like XMP/EXPO and resizable BAR with you.',['XMP / EXPO','Resizable BAR','Boost settings'],0],
+   ['Game config','FPS without ugly visuals','In-game settings picked for the best mix of FPS and looks.',['Graphics settings','FPS caps','Launch options'],0]];
+  $('svc').innerHTML=SV.map(function(s){return '<article class="srow spot reveal"><div><h3>'+s[0]+'</h3><b>'+s[1]+'</b><p>'+s[2]+'</p></div><div class="chips">'+s[3].map(function(c){return '<em>'+c+'</em>'}).join('')+'<span class="sticker'+(s[4]?'':' f')+'">'+(s[4]?'Light + Full':'Full only')+'</span></div></article>'}).join('');
+  $('steps').innerHTML=[['Send a DM','Tell me your PC parts, your main game and the plan you want.'],['Agree and pay','We settle the price and you pay by SEPA or PayPal before I start.'],['I tune your PC','You get a faster system and a short summary of what changed.']].map(function(s,i){return '<div class="reveal"><span class="n">'+(i+1)+'</span><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>'}).join('');
   $('tbl').innerHTML='<div class="h"><span>What is included</span><span>Light</span><span>Full</span></div>'+SV.map(function(s){return '<div><span>'+s[0]+'</span><span>'+(s[4]?'✓':'—')+'</span><span>✓</span></div>'}).join('');
-  $('ba').innerHTML=[['Average FPS',92,148],['1% low FPS',48,104],['Input delay (ms)',34,21]].map(function(r){var m=Math.max(r[1],r[2]);return '<section><h3>'+r[0]+'</h3><div><span>Before</span><i style="--w:'+r[1]/m*100+'%"></i><span>'+r[1]+'</span></div><div class="a"><span>After</span><i style="--w:'+r[2]/m*100+'%"></i><span>'+r[2]+'</span></div></section>'}).join('');
-  $('faq').innerHTML=[['Which PCs does this work on?','Windows PCs. Send me your parts in the DM and I will confirm it fits.'],['What is the difference between Light and Full?','Light cleans up Windows and sets power and GPU basics. Full adds deep registry and network tweaks, a BIOS check and game config.'],['How do I pay?','SEPA or PayPal, agreed in the DM before we start.'],['What should I send in my DM?','Your CPU, GPU and RAM, your main game and the plan you want. The form above writes it for you.']].map(function(q){return '<details><summary>'+q[0]+'</summary><p>'+q[1]+'</p></details>'}).join('');
+  var RES=CONFIG.results&&CONFIG.results.length?CONFIG.results:[['Average FPS',92,148],['1% low FPS',48,104],['Input delay (ms)',34,21]];
+  if(CONFIG.results&&CONFIG.results.length)$('stamp').remove();
+  $('ba').innerHTML=RES.map(function(r){var m=Math.max(r[1],r[2]);return '<section><h3>'+r[0]+'</h3><div><span>Before</span><i style="--w:'+r[1]/m*100+'%"></i><span>'+r[1]+'</span></div><div class="a"><span>After</span><i style="--w:'+r[2]/m*100+'%"></i><span>'+r[2]+'</span></div></section>'}).join('');
+  $('faq').innerHTML=[['Which PCs can you tune?','Windows PCs. Send me your parts and I will tell you if it is a good fit.'],['Light or Full, what is the difference?','Light cleans up Windows and sets power and GPU basics. Full adds deep registry and network tweaks, a BIOS check and game config.'],['How do I pay?','SEPA or PayPal. We agree on the price in the DM first.'],['What should I put in my DM?','Your CPU, GPU and RAM, your main game and the plan you want. The form above writes it for you.'],['Will I understand what you changed?','Yes. I send a short summary in plain words once I am done.'],['What if I am not happy with the result?','Send a refund request with proof, like your payment receipt and before and after benchmarks. The <a href="#refund" style="color:var(--g)">refund page</a> has the details.']].map(function(q){return '<details><summary>'+q[0]+'</summary><p>'+q[1]+'</p></details>'}).join('');
 
-  /* hero title + rolling words */
+  /* hero title, about */
   $('title').innerHTML='ZERO LAG'.split('').map(function(c,i){return '<span'+(i>4?' class="g"':'')+' style="animation-delay:'+i*70+'ms">'+(c==' '?'&nbsp;':c)+'</span>'}).join('');
-  var W=['boosts FPS.','cuts input lag.','smooths frame times.','wins you games.'],wi=0,rl=$('roll');
-  setInterval(function(){wi=(wi+1)%W.length;rl.style.animation='none';rl.offsetWidth;rl.textContent=W[wi];rl.style.animation=''},2400);
+  if(CONFIG.name){$('me').textContent=CONFIG.name;$('avatar').textContent=CONFIG.name.charAt(0).toUpperCase()}
+  if(CONFIG.photo){var im=new Image();im.alt='';im.src=CONFIG.photo;$('avatar').textContent='';$('avatar').appendChild(im)}
 
-  /* DM links + booking builder */
-  all('.dm').forEach(function(a){if(DM_URL){a.href=DM_URL;a.target='_blank';a.rel='noopener'}});
+  /* toast + booking builder + DM links */
+  var tt;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},2400)}
   var pl=$('plan'),hw=$('hw'),gm=$('game'),ms=$('msg');
   function build(){ms.value='Hi! I would like the '+pl.value+' PC optimization.\nMy PC: '+(hw.value||'(CPU / GPU / RAM)')+'\nMain game: '+(gm.value||'(game)')+'\nPayment: SEPA or PayPal'}
   [pl,hw,gm].forEach(function(e){e.addEventListener('input',build)});build();
-  all('[data-plan]').forEach(function(a){a.addEventListener('click',function(){pl.value=a.dataset.plan;build()})});
-  $('copy').addEventListener('click',function(){var b=this;function ok(){b.textContent='Copied!';setTimeout(function(){b.textContent='Copy message'},1600)}
-    try{navigator.clipboard.writeText(ms.value).then(ok,function(){ms.select();document.execCommand('copy');ok()})}catch(e){ms.select();document.execCommand('copy');ok()}});
+  function cp(done){build();var ok=function(){toast(done||'Message copied. Paste it in the DM.')};try{navigator.clipboard.writeText(ms.value).then(ok,function(){ms.select();document.execCommand('copy');ok()})}catch(e){ms.select();document.execCommand('copy');ok()}}
+  $('copy').addEventListener('click',function(){cp('Copied!')});
+  var L=CONFIG.links,names={discord:'Discord',instagram:'Instagram',telegram:'Telegram',whatsapp:'WhatsApp',email:'Email'},keys=Object.keys(L).filter(function(k){return L[k]});
+  function href(k){return k==='email'?'mailto:'+L[k]+'?subject='+encodeURIComponent('PC tuning')+'&body='+encodeURIComponent(ms.value):L[k]}
+  all('.dm').forEach(function(a){if(keys[0]){a.dataset.k=keys[0];a.href=href(keys[0]);a.target='_blank';a.rel='noopener'}});
+  $('chan').innerHTML=keys.map(function(k){return '<a class="btn ghost sm dm" data-copy data-k="'+k+'" href="'+href(k)+'" target="_blank" rel="noopener">'+names[k]+'</a>'}).join('');
+  document.addEventListener('click',function(e){var t=e.target.closest?e.target:e.target.parentNode,a=t.closest('.dm'),p=t.closest('[data-plan]');
+    if(p){pl.value=p.dataset.plan;build()}
+    if(a){build();if(a.dataset.k)a.href=href(a.dataset.k);if(a.hasAttribute('data-copy')){cp();if(!a.dataset.k)e.preventDefault()}}});
 
-  /* router */
-  var pages=all('.page');
-  function route(){var h=(location.hash||'#home').slice(1);if(!pages.some(function(p){return p.dataset.p===h}))h='home';
+  /* quiz */
+  var Q=[['How does your PC feel right now?',[['Fine, I just want more FPS',0],['Random stutters and lag spikes',2],['Slow all over, even outside games',3]]],['What do you mostly play?',[['Relaxed single-player games',0],['A bit of everything',1],['Competitive shooters or esports',2]]],['Want your BIOS and in-game settings checked too?',[['No, keep it simple',0],['Yes, do the lot',3]]]],qi=0,sc=0;
+  function quiz(){var el=$('quiz');
+    if(qi>=Q.length){var f=sc>=4;el.innerHTML='<h3>'+(f?'Go with Full.':'Light is enough for you.')+'</h3><p>'+(f?'Your answers point to deeper problems and settings that Light does not cover.':'A cleanup plus power and GPU settings should get you most of the way.')+'</p><div class="row"><a class="btn" href="#contact" data-plan="'+(f?'Full (€10–15)':'Light (€5)')+'">Book '+(f?'Full':'Light')+'</a><button class="btn ghost" id="qr" type="button">Start over</button></div>';$('qr').onclick=function(){qi=0;sc=0;quiz()};return}
+    el.innerHTML='<div class="dots">'+Q.map(function(_,i){return '<i'+(i<=qi?' class="on"':'')+'></i>'}).join('')+'</div><h3>'+Q[qi][0]+'</h3><div class="opts">'+Q[qi][1].map(function(o,i){return '<button type="button" data-i="'+i+'">'+o[0]+'</button>'}).join('')+'</div>';
+    all('.opts button').forEach(function(b){b.onclick=function(){sc+=Q[qi][1][+b.dataset.i][1];qi++;quiz()}})}
+  quiz();
+
+  /* reaction test */
+  var rz=$('react'),rs,rt,r0,best=null;try{best=+localStorage.getItem('zl-best')||null}catch(e){}
+  function rset(c,h){rz.className='react '+c;rz.innerHTML=h}
+  function ridle(){rs='idle';rset('','<b>Tap to start</b><span>Wait for green, then tap as fast as you can.</span>')}
+  function rhit(){
+    if(rs==='idle'||rs==='done'||rs==='early'){rs='wait';rset('wait','<b>Wait for green…</b>');rt=setTimeout(function(){rs='go';r0=performance.now();rset('go','<b>TAP!</b>')},1000+Math.random()*2500)}
+    else if(rs==='wait'){clearTimeout(rt);rs='early';rset('early','<b>Too soon!</b><span>Tap to try again.</span>')}
+    else if(rs==='go'){var m=Math.round(performance.now()-r0);rs='done';if(!best||m<best){best=m;try{localStorage.setItem('zl-best',best)}catch(e){}}rset('done','<b>'+m+' ms</b><span>Best: '+best+' ms. Tap to go again.</span>')}}
+  rz.addEventListener('pointerdown',function(e){e.preventDefault();rhit()});
+  rz.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();rhit()}});
+  ridle();
+
+  /* chat */
+  var CH=[['y','hey, can you tune my pc? 3060 and a ryzen 5, mostly valorant'],['m','Yep! Light or Full? Full also covers BIOS and game settings.'],['y','Full please, it stutters a lot'],['m','Perfect. Full is €10–15 depending on your setup. SEPA or PayPal?'],['y','PayPal'],['m','Done. Pay up and I will start on it.']],played=0;
+  function playChat(){var c=$('chat'),i=0;c.innerHTML='';
+    (function next(){if(i>=CH.length)return;var m=CH[i++],t=document.createElement('div');t.className='msg typing '+m[0];t.innerHTML='<i></i><i></i><i></i>';c.appendChild(t);
+      setTimeout(function(){t.className='msg '+m[0];t.textContent=m[1];setTimeout(next,reduce?0:650)},reduce?0:900)})()}
+  new IntersectionObserver(function(es,o){if(es[0].isIntersecting&&!played){played=1;playChat()}},{threshold:.35}).observe($('chat'));
+
+  /* refund, terms, proof */
+  var RD=CONFIG.refundDays||7;
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  all('.rdays').forEach(function(e){e.textContent=RD});
+  $('top').onclick=function(){scrollTo({top:0,behavior:reduce?'auto':'smooth'})};
+  if(CONFIG.reviews&&CONFIG.reviews.length)$('rev').innerHTML='<h2 class="big">What people say</h2><div class="quotes">'+CONFIG.reviews.map(function(r){return '<figure><blockquote>“'+esc(r[0])+'”</blockquote><figcaption>'+esc(r[1])+'</figcaption></figure>'}).join('')+'</div>';
+  if(CONFIG.business)$('biz').textContent=CONFIG.business;
+  $('rsteps').innerHTML=[['Collect your proof','A payment receipt, plus before and after benchmarks if the PC is not faster.'],['Send the request','Fill in the form below, copy it and send it to me in a DM with your files.'],['I review it','I check your proof and reply in the DM. Approved refunds go back to the account you paid from.']].map(function(s,i){return '<div class="reveal"><span class="n">'+(i+1)+'</span><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>'}).join('');
+  $('legal').innerHTML=[['What I do','I tune Windows PCs for better FPS and lower input delay. What each plan includes is on the Services and Pricing pages.'],['Payment','Prices are in euros. You pay by SEPA or PayPal once we agree the price in the DM and before I start. Full is €10–15 depending on your setup, and I confirm the exact price first.'],['No exact promises','Results depend on your hardware, your games and what is installed. I cannot promise a specific FPS number.'],['Before I start','Create a Windows restore point and back up anything important. Tell me about anything you do not want touched.'],['Refunds','Requests need proof and must be made within '+RD+' days of the service. Everything is on the <a href="#refund" style="color:var(--g)">refund page</a>.'],['Privacy','This site has no accounts, no cookies and no trackers. The forms only write text on your device, and nothing is sent until you send it to me in a DM. Your best reaction time is saved in your own browser. Details you share in a DM, like PC parts or a payment reference, are only used to do the job and handle payment.']].map(function(q){return '<details><summary>'+q[0]+'</summary><p>'+q[1]+'</p></details>'}).join('');
+  var rf={plan:$('rplan'),pm:$('rpm'),ref:$('rref'),why:$('rwhy'),txt:$('rtxt'),out:$('rout')},pf=all('.pf'),rm=$('rmiss');
+  function has(k){return pf.some(function(c){return c.dataset.k===k&&c.checked})}
+  function rbuild(){var need=[],bad=rf.why.value==='The PC is not faster or got worse';
+    if(!rf.ref.value.trim())need.push('the payment reference');
+    if(!has('receipt'))need.push('your payment receipt');
+    if(bad&&!has('before'))need.push('a before benchmark');
+    if(bad&&!has('after'))need.push('an after benchmark');
+    if(!rf.txt.value.trim())need.push('a short description');
+    var ps=pf.filter(function(c){return c.checked}).map(function(c){return c.dataset.l});
+    rf.out.value='Refund request\nPlan: '+rf.plan.value+'\nPaid with: '+rf.pm.value+'\nReference: '+(rf.ref.value.trim()||'(add it)')+'\nReason: '+rf.why.value+'\nWhat happened: '+(rf.txt.value.trim()||'(describe it)')+'\nProof I will attach: '+(ps.join(', ')||'(none yet)');
+    rm.textContent=need.length?'Still needed: '+need.join(', ')+'.':'Looks complete. Copy the request and attach your proof files in the DM.';
+    rm.className='rmiss'+(need.length?'':' ok');return !need.length}
+  [rf.plan,rf.pm,rf.ref,rf.why,rf.txt].concat(pf).forEach(function(e){e.addEventListener('input',rbuild);e.addEventListener('change',rbuild)});rbuild();
+  function ct(el,m){var ok=function(){toast(m)};try{navigator.clipboard.writeText(el.value).then(ok,function(){el.select();document.execCommand('copy');ok()})}catch(e){el.select();document.execCommand('copy');ok()}}
+  $('rcopy').onclick=function(){if(rbuild())ct(rf.out,'Request copied. Attach your proof in the DM.');else toast('Add the missing proof first')};
+  $('ropen').addEventListener('click',function(e){var a=this;if(!rbuild()){e.preventDefault();toast('Add the missing proof first');return}
+    ct(rf.out,'Request copied. Attach your proof in the DM.');var k=keys[0];
+    if(k){a.href=k==='email'?'mailto:'+L[k]+'?subject='+encodeURIComponent('Refund request')+'&body='+encodeURIComponent(rf.out.value):L[k];a.target='_blank';a.rel='noopener'}else e.preventDefault()});
+  $('rpick').addEventListener('change',function(){var th=$('rthumbs');th.innerHTML='';[].forEach.call(this.files,function(f){var d=document.createElement('div');d.className='th';if(/^image\//.test(f.type)){var im=new Image();im.alt=f.name;im.src=URL.createObjectURL(f);d.appendChild(im)}var s=document.createElement('span');s.textContent=f.name+' · '+Math.round(f.size/1024)+' KB';d.appendChild(s);th.appendChild(d)})});
+
+  /* router, menu */
+  var pages=all('.page'),TT={home:'Zero Lag — PC FPS & Latency Optimization',services:'What I tune — Zero Lag',pricing:'Prices — Zero Lag',results:'Results — Zero Lag',contact:'Message me — Zero Lag',refund:'Refund request — Zero Lag',terms:'Terms and privacy — Zero Lag'};
+  function route(){var h=(location.hash||'#home').slice(1);if(!TT[h])h='home';
     pages.forEach(function(p){p.classList.toggle('on',p.dataset.p===h)});
     all('[data-nav]').forEach(function(a){a.classList.toggle('act',a.dataset.nav===h)});
-    document.body.dataset.r=h;scrollTo({top:0,behavior:'instant'});onScroll()}
+    document.body.dataset.r=h;document.title=TT[h];scrollTo({top:0,behavior:'instant'});onScroll()}
+  var nv=document.querySelector('nav'),bu=document.querySelector('.burger');
+  function menu(o){nv.classList.toggle('open',o);bu.setAttribute('aria-expanded',o)}
+  bu.onclick=function(){menu(!nv.classList.contains('open'))};
+  all('.links a').forEach(function(a){a.addEventListener('click',function(){menu(false)})});
 
-  /* cursor glow, spotlight, magnetic buttons */
+  /* glow, spotlight, magnetic buttons, reveal */
   var bg=$('bg');addEventListener('pointermove',function(e){bg.style.setProperty('--mx',e.clientX+'px');bg.style.setProperty('--my',e.clientY+'px')});
   document.addEventListener('pointermove',function(e){var c=e.target.closest&&e.target.closest('.spot');if(c){var b=c.getBoundingClientRect();c.style.setProperty('--sx',e.clientX-b.left+'px');c.style.setProperty('--sy',e.clientY-b.top+'px')}});
   all('.btn').forEach(function(b){b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+(e.clientX-r.left-r.width/2)*.2+'px,'+(e.clientY-r.top-r.height/2)*.3+'px)'});b.addEventListener('pointerleave',function(){b.style.transform=''})});
-
-  /* reveal + counters */
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
   all('.reveal').forEach(function(el,i){el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
-  var co=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;co.unobserve(e.target);var el=e.target,n=+el.dataset.n,t0=performance.now();
-    (function f(t){var k=Math.min(1,(t-t0)/1400);el.textContent=(el.dataset.pre||'')+Math.round(n*(1-Math.pow(1-k,3)))+(el.dataset.suf||'');if(k<1)requestAnimationFrame(f)})(t0)})},{threshold:.6});
-  all('[data-n]').forEach(function(el){co.observe(el)});
 
-  /* scroll progress + FPS pill + scrubbed gauge */
-  var prog=$('prog'),fe=$('fps'),sec=$('scrub'),bar=$('bar'),st=all('#states div'),x=$('gauge').getContext('2d'),W2=840;
+  /* progress, FPS pill, scrubbed gauge */
+  var prog=$('prog'),fe=$('fps'),sec=$('scrub'),bar=$('bar'),st=all('#states div'),x=$('gauge').getContext('2d');
   function ease(p){return p*p*(3-2*p)}
   function noise(i,s){return Math.sin(i*12.9898+s)*43758.5453%1}
-  function draw(p){p=Math.max(0,Math.min(1,p));var e=ease(p),fps=Math.round(48+e*192);x.clearRect(0,0,W2,W2);
+  function draw(p){p=Math.max(0,Math.min(1,p));var e=ease(p),fps=Math.round(48+e*192);x.clearRect(0,0,840,840);
     var cx=420,cy=360,R=250,a0=Math.PI*.8,a1=Math.PI*2.2;x.lineWidth=18;x.lineCap='round';
     x.strokeStyle='#1b261f';x.beginPath();x.arc(cx,cy,R,a0,a1);x.stroke();
     x.strokeStyle='#22ff88';x.shadowColor='#22ff88';x.shadowBlur=24;x.beginPath();x.arc(cx,cy,R,a0,a0+(a1-a0)*(fps/240));x.stroke();x.shadowBlur=0;
@@ -330,8 +501,7 @@ footer a{display:block;text-decoration:none;color:#cfdad3;padding:4px 0}footer a
     bar.style.width=p*100+'%';var idx=p<.28?0:p<.7?1:2;st.forEach(function(s,i){s.classList.toggle('on',i===idx)})}
   function onScroll(){var m=document.documentElement.scrollHeight-innerHeight,p=m>0?scrollY/m:0;prog.style.width=p*100+'%';fe.textContent=Math.round(60+p*180);
     if(sec.offsetHeight){var b=sec.getBoundingClientRect();draw(-b.top/(sec.offsetHeight-innerHeight))}}
-  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);
-  addEventListener('hashchange',route);
+  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);addEventListener('hashchange',route);
   route();(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(onScroll);
 })();
 </script>
